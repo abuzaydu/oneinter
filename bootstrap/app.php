@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'permission' => CheckPermission::class
         ]);
+
+        $middleware->web(append: [
+            HttpsProtocol::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class HttpsProtocol
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        if (app()->isProduction()) {
+            if (!$request->secure()) {
+                return redirect()->secure($request->getRequestUri());
+            }else{
+                return $next($request);
+            }
+        }else{
+            return $next($request);
+        }
+    }
+}
